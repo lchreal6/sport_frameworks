@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <style type="text/css">
+            #div1 {
+                height: 50px;width: 50px;
+                background: red;opacity: 0.5;
+                filter: alpha(opacity: 50);
+                position: absolute;top: 0;
+                                border: 1px solid black;
+            }
+        </style>
+       
+        <script type="text/javascript">
+            window.onload = function() {
+            	var oDiv = document.getElementById('div1');
+            	oDiv.onmouseover = function() {
+            		startMove(oDiv, {
+            			width: 100,
+            			height: 150,
+            			opacity: 100
+            		}, function() {
+            			startMove(oDiv, {
+            				width: 150
+            			});
+            		});
+            	};
+            	oDiv.onmouseout = function() {
+            		startMove(oDiv, {
+            			borderWidth: 10
+            		});
+            	};
+            };
+
+            function getStyle(obj, attr) {
+            	if (obj.currentStyle) {
+            		return obj.currentStyle[attr];
+            	} else {
+            		return getComputedStyle(obj, false)[attr];
+            	}
+            }
+
+            function startMove(obj, json, endFun) {
+            	//开始前关闭之前obj上的定时器
+            	clearInterval(obj.timer);
+
+            	//定时器
+            	obj.timer = setInterval(function() {
+
+            		var bStop = true; //假设所有值都到目标
+            		for (var attr in json) { //循环json数组
+
+            			//单独处理透明度
+            			if (attr == 'opacity') {
+            				var cur = Math.round(parseFloat(getStyle(obj, attr)) * 100);
+            			} else {
+            				var cur = parseInt(getStyle(obj, attr));
+            			}
+            			//速度处理
+            			var speed = (json[attr] - cur) / 6;
+            			speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+
+            			//如果当前的没到目标值
+            			if (cur != json[attr])
+            				bStop = false;
+
+            			//运动
+            			if (attr == 'opacity') {
+            				obj.style.opacity = (cur + speed) / 100;
+            				obj.style.filter = 'alpha(opacity:' + (cur + speed) + ')';
+            			} else {
+            				obj.style[attr] = cur + speed + 'px';
+            			}
+            		}
+            		//所有的都到达目标值
+            		if (bStop) {
+            			clearInterval(obj.timer);
+            			if (endFun) endFun();
+            		}
+            	}, 30);
+            }
+        </script>
+    </head>
+    <body>
+        <div id="div1"></div>
+    </body>
+</html>

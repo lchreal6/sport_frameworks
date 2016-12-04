@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+	.wrap{
+		width: 750px;
+		height: 300px;
+		position: relative;
+		overflow: hidden;
+		margin:0 auto;
+	}
+	ul{
+		position:absolute;
+		left: 0;
+		top: 0;
+		padding: 0;
+		margin: 0
+		
+	}
+	li{
+		
+		float: left;
+		list-style: none;
+		
+	}
+	img{
+		width: 250px;
+		height: 300px;
+	}
+	#btn-left{
+		position: absolute;
+		top:150px;
+		left: 100px;
+	}
+	#btn-right{
+		position: absolute;
+		top: 150px;
+		right: 100px;
+	}
+	</style>
+	
+</head>
+<body>
+	<div id="roller">
+		
+	
+	<button id="btn-left">向左</button>
+	<button id="btn-right">向右</button>
+	<div class="wrap">
+	<ul>
+		<li><img src="e53421aegw1f89m1x8bevj20k60pcad5.jpg"></li>
+		<li><img src="e53421aegw1f89m1y1mukj20kl0pf0uz.jpg"></li>
+		<li><img src="e53421aegw1f89m1ybz2ij20jz0pcq4z.jpg"></li>
+	</ul>
+		
+	</div>
+	</div>
+	<script type="text/javascript">
+	
+	roller = document.getElementById('roller');
+	oUl = roller.getElementsByTagName('ul')[0];
+	oLi = roller.getElementsByTagName('li');
+	btnLeft = document.getElementById('btn-left');
+	btnRight = document.getElementById('btn-right');
+
+	var speed = -1;
+	oUl.innerHTML += oUl.innerHTML;
+
+	oUl.style.width = oLi[0].offsetWidth * oLi.length + "px";
+	btnLeft.onclick = function() {
+		speed = -1;
+	};
+	btnRight.onclick = function() {
+		speed = 1;
+	};
+	setInterval(function() {
+		oUl.style.left = oUl.offsetLeft + speed + 'px';
+		if (oUl.offsetLeft < -oUl.offsetWidth / 2) {
+			oUl.style.left = 0 + 'px';
+		}
+		if (oUl.offsetLeft > 0) {
+			oUl.style.left = -oUl.offsetWidth / 2 + 'px';
+		}
+	}, 20);
+	
+	
+
+
+	
+	
+	
+	
+
+	</script>
+</body>
+</html>

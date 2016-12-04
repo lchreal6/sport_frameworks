@@ -1,0 +1,122 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Lch (lchreal6.gmail.com)
+ * @date    2016-12-04 14:27:19
+ * @version $Id$
+ */
+*{
+	margin: 0;
+	padding: 0;
+}
+#display{
+	width: 430px;
+	margin: 0 auto;
+	padding: 10px 0;
+	background-color: gray;
+	border-radius: 10px;
+}
+.largeImg{
+	position: relative;
+	width: 400px;
+	height: 320px;
+	margin:0 auto;
+	margin-bottom: 10px;
+	/*background-color: blue;*/
+}
+.smallImg{
+	position: relative;
+	width: 400px;
+	height: 94px;
+	overflow: hidden;
+	margin-left: 15px;
+}
+.largeImg ul{
+	position: relative;
+	width: 400px;
+	height: 320px;
+}
+.largeImg ul li{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 400px;
+	height: 320px;
+	
+	list-style: none;
+	overflow: hidden;
+	z-index: 0;
+
+}
+.smallImg ul{
+	position: absolute;
+	width: 420px;
+	height: 94px;
+	/*background-color: yellow;*/
+	
+
+}
+.smallImg li{
+	width: 120px;
+	height: 94px;
+	float: left;
+	/*border: 1px solid #000;*/
+	list-style: none;
+	margin-left: 10px;
+	opacity: 0.6;
+	cursor: pointer;
+	
+}
+.smallImg li img{
+	width: 120px;
+	height: 94px;
+}
+.mark_left{
+	position: absolute;
+	left: 0;
+	top:0;
+	width: 200px;
+	height: 320px;
+	background-color: blue;
+	z-index: 2000;
+	opacity: 0;
+}
+.mark_right{
+	position: absolute;
+	left: 200px;
+	top:0;
+	width: 200px;
+	height: 320px;
+	background-color: red;
+	z-index: 2000;
+	opacity: 0;
+}
+.btn_left{
+
+	display: inline-block;
+	width: 60px;
+	height: 60px;
+	
+	z-index: 2001;
+	position: absolute;
+	left: 0;
+	top: 130px;
+    background: url(images/btn.gif) ;
+    cursor: pointer; 
+    opacity: 0;
+}
+.btn_right{
+
+	display: inline-block;
+	width: 60px;
+	height: 60px;
+	background-color: red;
+	z-index: 2001;
+	position: absolute;
+	right: 0;
+	top: 130px;
+	background: url(images/btn.gif)0 -60px ;
+	cursor: pointer;  
+	opacity: 0;
+}
+

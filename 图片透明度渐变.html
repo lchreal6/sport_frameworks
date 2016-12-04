@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		div{
+
+			text-align: center;
+		}
+		div img{
+			opacity: 0.3;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function() {
+			var timer = null;
+			var oImg = document.getElementsByTagName('img')[0];
+			var alpha = 30;
+			console.log();
+			console.log(getComputedStyle(oImg, false)["opacity"]);
+			oImg.onmouseover = function() {
+
+				var speed = 1;
+				var target = 1;
+
+				
+				move(speed, target);
+
+			};
+			oImg.onmouseout = function() {
+				console.log(alpha);
+				var speed = -1;
+				var target = 0.3;
+
+
+				move(speed, target);
+
+			};
+
+			function move(speed, target) {
+				clearInterval(timer);
+				timer = setInterval(function() {
+					if (oImg.style.opacity == target) {
+						clearInterval(timer);
+					} else {
+						alpha += speed;
+						oImg.style.opacity = alpha / 100;
+					}
+
+				}, 30);
+
+			}
+		};
+	</script>
+</head>
+<body>
+	<div><img src="e53421aegw1f89m1x8bevj20k60pcad5.jpg"></div>
+</body>
+</html>
