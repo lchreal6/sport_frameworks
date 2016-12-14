@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#div1{
+			width: 100px;
+			height: 100px;
+			background-color: red;
+			position: absolute;
+			cursor: pointer;
+		}
+		#btn1{
+			position: relative;
+			width: 18px;
+			height: 18px;
+			float: right;
+			text-align: center;
+			border: 1px solid #000;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function() {
+
+			var oDiv1 = document.getElementById('div1');
+			oDiv1.style.left = (document.documentElement.clientWidth-oDiv1.offsetWidth)/2 + 'px';
+			oDiv1.style.top = (document.documentElement.clientHeight-oDiv1.offsetHeight)/2 + 'px';
+			drag(oDiv1);
+			var oBtn1 = document.getElementById('btn1');
+			oBtn1.onclick = function(){
+				startMove2(oDiv1,{left:'0',top:'0'},function(){
+					startMove3(oDiv1,{left:'-80'},function(){
+						oDiv1.onmouseover = function(){
+							startMove2(oDiv1,{left:'0'})
+						}
+						oDiv1.onmouseout = function(){
+							startMove3(oDiv1,{left:'-80'})
+						}
+					});
+				})
+			}
+
+
+		}
+
+		function drag(obj) {
+			obj.onmousedown = function(ev) {
+				obj.onmouseover = null;
+				obj.onmouseout = null;
+				
+				var lastX = obj.offsetLeft;
+				var lastY = obj.offsetTop;
+				clearInterval(obj.timer);
+				var oEvent = ev || event;
+
+				
+				var disX = oEvent.clientX - obj.offsetLeft;
+				var disY = oEvent.clientY - obj.offsetTop;
+				document.onmousemove = function(ev) {
+					var oEvent = ev || event;
+					var l = oEvent.clientX - disX;
+					var t = oEvent.clientY - disY;
+
+					obj.style.left = l + 'px';
+					obj.style.top = t + 'px';
+					obj.iSpeedX = l - lastX;
+					obj.iSpeedY = t -lastY;
+					lastX = l ;
+					lastY = t ;
+
+				}
+
+			}
+			obj.onmouseup = function() {
+				document.onmousemove = null;
+				startMove1(obj);
+
+			}
+		}
+		
+		 
+	
+		function startMove1(obj){
+			
+			clearInterval(obj.timer);
+			
+			
+			obj.timer = setInterval(function(){
+				obj.iSpeedY+=4;
+			var t = obj.offsetTop + obj.iSpeedY ;
+			var l = obj.offsetLeft + obj.iSpeedX;
+			if(t>=document.documentElement.clientHeight-obj.offsetHeight){
+
+				obj.iSpeedY*=-0.8;
+				obj.iSpeedX*=0.8;
+				t = document.documentElement.clientHeight-obj.offsetHeight;
+			}else if(t<=0){
+				obj.iSpeedY*=-1;
+				obj.iSpeedX*=0.8;
+				t = 0;
+			}
+			if(l>=document.documentElement.clientWidth-obj.offsetWidth){
+				obj.iSpeedX*=-0.8;
+				l = document.documentElement.clientWidth-obj.offsetWidth
+
+			}else if(l<=0){
+				obj.iSpeedX*=-0.8;
+				l = 0;
+			}
+		if(Math.abs(obj.iSpeedY)<2&&Math.abs(obj.iSpeedX)<1&&obj.offsetTop==document.documentElement.clientHeight-obj.offsetHeight){
+			obj.iSpeedY = 0;
+			obj.iSpeedX = 0;
+			clearInterval(obj.timer);
+		}
+			obj.style.left = l + 'px';
+			obj.style.top = t +'px';
+			
+
+			},30)
+		}
+		//使用getStyle函数能够有效地避免offsetwidth 不断递增问题
+		function getStyle(obj,attr){
+			if(obj.currentStyle){
+				return obj.currentStyle[attr];
+			}else{
+				return getComputedStyle(obj,false)[attr];
+			}
+		}
+		function startMove2(obj,json,fn){
+			
+			clearInterval(obj.timer);
+			
+			
+
+			obj.timer = setInterval(function(){
+				var stop = true;
+				for(var attr in json){
+					var curStyle = 0;
+				if(attr == 'opacity'){
+					//添加parseInt去整数，解决小数点出现的闪现问题
+					 curStyle =parseInt(parseFloat(getStyle(obj,attr)*100)) ;
+				}else{
+					 curStyle = parseInt(getStyle(obj,attr));
+				}
+				
+				var speed = (json[attr] - curStyle) /8;
+				speed = speed>0? Math.ceil(speed):Math.floor(speed);
+				if(curStyle!=json[attr]){
+					stop = false;
+				}
+					
+				
+					if(attr == 'opacity'){
+						obj.style.opacity = (curStyle + speed) / 100;
+
+					}else{
+						obj.style[attr] = curStyle + speed+'px';
+					}
+
+				
+			}
+			if(stop){
+					
+					clearInterval(obj.timer);
+					
+					if(fn){
+						fn();
+					}
+				}	
+			},30)
+			
+		}
+		function startMove3(obj,json,fn){
+			clearInterval(obj.timer);
+			obj.iSpeed = 0;
+			obj.timer = setInterval(function(){
+				var stop = true;
+				for(var attr in json){
+					var curStyle = parseInt(getStyle(obj,attr));
+					
+					obj.iSpeed +=(json[attr] - curStyle )/5;
+					obj.iSpeed*=0.7;
+					if(!(Math.abs(obj.iSpeed)<1&&Math.abs(json[attr]-curStyle)<1)){
+						stop = false;
+					}
+					obj.style[attr] = curStyle + obj.iSpeed+'px';
+				}
+			
+				if(stop){
+					clearInterval(obj.timer);
+					obj.style[attr] = json[attr] + 'px';
+					if(fn){
+						fn();
+					}
+
+				}
+			},30)
+
+		}
+	</script>
+</head>	
+<body>
+	
+	<div id="div1">
+		<div id="btn1">x</div>
+	</div>
+	
+	
+	
+</body>
+</html> 

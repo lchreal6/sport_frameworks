@@ -40,19 +40,7 @@
 					}
 					obj.style[attr] = curStyle + obj.iSpeed+'px';
 				}
-				
-				// if(Math.abs(iSpeed)<1&&Math.abs(iTarget-curStyle)<1){
-				// 	clearInterval(obj.timer);
-				// 	iSpeed = 0;
-
-				// 	obj.style[attr] = iTarget + 'px';
-				// 	if(fn){
-				// 		fn();
-				// 	}
-				// }
-				// iSpeed +=(iTarget - curStyle )/5;
-				// iSpeed*=0.7;
-				// obj.style[attr] = curStyle + iSpeed+'px';
+			
 				if(stop){
 					clearInterval(obj.timer);
 					obj.style[attr] = json[attr] + 'px';
