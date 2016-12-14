@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#div1{
+			width: 100px;
+			height: 100px;
+			background-color: red;
+			position: absolute;
+			cursor: pointer;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function() {
+			var oDvi1 = document.getElementById('div1');
+			drag(oDvi1);
+
+		}
+
+		function drag(obj) {
+			obj.onmousedown = function(ev) {
+				clearInterval(obj.timer);
+				var oEvent = ev || event;
+
+				var speed = (document.documentElement.clientHeight -oEvent.clientY)/20; //下坠速度随着物体的高度而增大
+				obj.iSpeedY = speed;
+				var disX = oEvent.clientX - obj.offsetLeft;
+				var disY = oEvent.clientY - obj.offsetTop;
+				document.onmousemove = function(ev) {
+					var oEvent = ev || event;
+					var l = oEvent.clientX - disX;
+					var t = oEvent.clientY - disY;
+
+					obj.style.left = l + 'px';
+					obj.style.top = t + 'px';
+
+				}
+
+			}
+			obj.onmouseup = function() {
+				document.onmousemove = null;
+				startMove(obj);
+
+			}
+		}
+		
+		 
+		// var obj.iSpeedY ;
+		function startMove(obj){
+			
+			clearInterval(obj.timer);
+			
+			
+			obj.timer = setInterval(function(){
+				obj.iSpeedY+=4;
+			var t = obj.offsetTop + obj.iSpeedY ;
+			
+			if(t>=document.documentElement.clientHeight-obj.offsetHeight){
+
+				obj.iSpeedY*=-0.8;
+				t = document.documentElement.clientHeight-obj.offsetHeight;
+			}else if(t<=0){
+				obj.iSpeedY*=-1;
+				
+				t = 0;
+			}
+			
+		if(Math.abs(obj.iSpeedY)<1&&obj.offsetTop==document.documentElement.clientHeight-obj.offsetHeight){
+			obj.iSpeedY = 0;
+			clearInterval(obj.timer);
+		}
+			
+			obj.style.top = t +'px';
+			
+
+			},30)
+		}
+	</script>
+</head>	
+<body>
+	<div id="div1"></div>
+</body>
+</html>

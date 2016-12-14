@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#div1{
+			width: 100px;
+			height: 100px;
+			background-color: red;
+			position: absolute;
+		}
+
+	</style>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oDiv1 = document.getElementById('div1');
+			oDiv1.onmouseover = function(){
+				startMove(oDiv1);
+			}
+		}
+		var timer = null;
+		var iSpeedX = 10 ;
+		var iSpeedY = 8 ;
+		function startMove(obj){
+			
+			clearInterval(timer);
+			
+			
+			timer = setInterval(function(){
+				iSpeedY+=4;
+			var t = obj.offsetTop + iSpeedY ;
+			var l = obj.offsetLeft + iSpeedX;
+			if(t>=document.documentElement.clientHeight-obj.offsetHeight){
+
+				iSpeedY*=-0.8;
+				iSpeedX*=0.8;
+				t = document.documentElement.clientHeight-obj.offsetHeight;
+			}else if(t<=0){
+				iSpeedY*=-1;
+				iSpeedX*=0.8;
+				t = 0;
+			}
+			if(l>=document.documentElement.clientWidth-obj.offsetWidth){
+				iSpeedX*=-0.8;
+				l = document.documentElement.clientWidth-obj.offsetWidth
+
+			}else if(l<=0){
+				iSpeedX*=-0.8;
+				l = 0;
+			}
+		if(Math.abs(iSpeedY)<1&&Math.abs(iSpeedX)<1&&obj.offsetTop==document.documentElement.clientHeight-obj.offsetHeight){
+			iSpeedY = 0;
+			iSpeedX = 0;
+			clearInterval(timer);
+		}
+			obj.style.left = l + 'px';
+			obj.style.top = t +'px';
+			document.title = iSpeedY+"x:"+iSpeedX;
+			console.log(iSpeedY);
+
+			},30)
+		}
+	</script>
+</head>
+<body>
+	<div id="div1"></div>
+</body>
+</html>

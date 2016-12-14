@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#div1{
+			width: 100px;
+			height: 100px;
+			background-color: red;
+			position: absolute;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function() {
+			var oDvi1 = document.getElementById('div1');
+			drag(oDvi1);
+		}
+
+		function drag(obj) {
+			obj.onmousedown = function(ev) {
+				var oEvent = ev || event;
+
+				var disX = oEvent.clientX - obj.offsetLeft;
+				var disY = oEvent.clientY - obj.offsetTop;
+				document.onmousemove = function(ev) {
+					var oEvent = ev || event;
+					var l = oEvent.clientX - disX;
+					var t = oEvent.clientY - disY;
+
+					obj.style.left = l + 'px';
+					obj.style.top = t + 'px';
+
+				}
+
+			}
+			obj.onmouseup = function() {
+				document.onmousemove = null;
+
+			}
+		}
+	</script>
+</head>	
+<body>
+	<div id="div1"></div>
+</body>
+</html>

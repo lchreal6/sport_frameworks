@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		* {margin:0; padding:0;}
+		#div1{
+			width: 500px; 
+			height: 800px;
+			margin: 0 auto ;
+			border: 1px solid #000;
+		}
+		#div1 div{
+			overflow: hidden;
+			border-bottom: 1px dashed blue;
+			padding: 10px;
+			opacity: 0;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oTex = document.getElementById('tex1');
+			var oSub = document.getElementById('submit');
+			var oDiv1 = document.getElementById('div1');
+			oSub.onclick = function(){
+				var oNewDiv = document.createElement('div');
+				var aDiv = oDiv1.getElementsByTagName('div');
+				console.log(aDiv[0]);
+				oNewDiv.innerHTML = oTex.value;
+				oTex.value = '';
+				if(aDiv.length){
+					oDiv1.insertBefore(oNewDiv,aDiv[0])
+				}else{
+					oDiv1.append(oNewDiv);
+				}
+				
+
+				var iHeight = oNewDiv.offsetHeight-10;
+				console.log(iHeight);
+				oNewDiv.style.height =0;
+				startMove(oNewDiv,{height:iHeight},function(){
+					startMove(oNewDiv, {opacity: 100});
+				});
+
+			}
+		}
+		function getStyle(obj, attr)
+{
+	if(obj.currentStyle)
+	{
+		return obj.currentStyle[attr];
+	}
+	else
+	{
+		return getComputedStyle(obj, false)[attr];
+	}
+}
+
+function startMove(obj, json, fn)
+{
+	clearInterval(obj.timer);
+	obj.timer=setInterval(function (){
+		var bStop=true;		//这一次运动就结束了——所有的值都到达了
+		for(var attr in json)
+		{
+			//1.取当前的值
+			var iCur=0;
+			
+			if(attr=='opacity')
+			{
+				iCur=parseInt(parseFloat(getStyle(obj, attr))*100);
+			}
+			else
+			{
+				iCur=parseInt(getStyle(obj, attr));
+			}
+			
+			//2.算速度
+			var iSpeed=(json[attr]-iCur)/8;
+			iSpeed=iSpeed>0?Math.ceil(iSpeed):Math.floor(iSpeed);
+			
+			//3.检测停止
+			if(iCur!=json[attr])
+			{
+				bStop=false;
+			}
+			
+			if(attr=='opacity')
+			{
+				obj.style.filter='alpha(opacity:'+(iCur+iSpeed)+')';
+				obj.style.opacity=(iCur+iSpeed)/100;
+			}
+			else
+			{
+				obj.style[attr]=iCur+iSpeed+'px';
+			}
+		}
+		
+		if(bStop)
+		{
+			clearInterval(obj.timer);
+			
+			if(fn)
+			{
+				fn();
+			}
+		}
+	}, 30)
+}
+	</script>
+</head>
+<body>
+	<textarea id="tex1" rows="10" cols="40"></textarea>
+	<input type="button" name="" value="上传" id="submit">
+	<div id="div1"></div>
+</body>
+</html>

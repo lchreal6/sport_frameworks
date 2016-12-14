@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #ul1 li{
+            width: 100px;
+            height: 100px;
+            float: left;
+            margin: 10px;
+            border: 1px solid #000000;
+            list-style: none;
+
+        }
+        #ul1{
+            width: 366px;
+            margin: 0 auto;
+
+        }
+    </style>
+    <script>
+        window.onload=function () {
+            
+            var oUl = document.getElementById('ul1');
+            var aLi = oUl.getElementsByTagName('li');
+
+            transformLayout(aLi);
+
+
+
+//            for(var i =0;i<objList.length;i++){
+//                objList[i].style.left = objList[i].offsetLeft + 'px';
+//                objList[i].style.top = objList[i].offsetTop + 'px'
+//            }
+//            for(var i = 0;i<objList.length;i++){
+//                objList[i].style.position='absolute';
+//                objList[i].style.margin = 0;
+
+//            }
+
+        }
+
+        function transformLayout(objList) {
+            for(var i =0;i<objList.length;i++){
+                objList[i].style.left = objList[i].offsetLeft + 'px';
+                objList[i].style.top = objList[i].offsetTop + 'px'
+            }
+            for(var i = 0;i<objList.length;i++){
+                objList[i].style.position='absolute';
+                objList[i].style.margin = 0;
+
+            }
+        }
+    </script>
+</head>
+<body>
+<ul id="ul1">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+</body>
+</html>

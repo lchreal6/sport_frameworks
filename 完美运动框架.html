@@ -44,9 +44,9 @@
 					var curStyle = 0;
 				if(attr == 'opacity'){
 					//添加parseInt去整数，解决小数点出现的闪现问题
-					var curStyle =parseInt(parseFloat(getStyle(obj,attr)*100)) ;
+					 curStyle =parseInt(parseFloat(getStyle(obj,attr)*100)) ;
 				}else{
-					var curStyle = parseInt(getStyle(obj,attr));
+					 curStyle = parseInt(getStyle(obj,attr));
 				}
 				
 				var speed = (json[attr] - curStyle) /8;
